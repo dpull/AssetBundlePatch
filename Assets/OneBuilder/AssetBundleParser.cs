@@ -8,10 +8,30 @@ namespace dpull
 {
     public class AssetBundleParser  
     {
-		string AppDataDir;
-		
+        public static bool IsSupport(string file)
+        {
+            var bundle = assetbundle_load(file);
+            if (bundle == IntPtr.Zero)
+                return false;
+
+            var ret = assetbundle_check(bundle);
+            assetbundle_destory(bundle);
+            return ret;
+        }
+
+		public static bool Diff(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff)
+        {
+			return assetbundle_diff(appDataDir, fromAssetbundle, toAssetbundle, diff) == 0;
+        }
+
+		public static bool Merge(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff)
+		{
+			AppDataDir = appDataDir;
+			return assetbundle_merge(ReadFile, IntPtr.Zero, fromAssetbundle, toAssetbundle, diff) == 0;
+		}
+				
 		[AOT.MonoPInvokeCallback(typeof(ReadFileCallback))]
-		int ReadFile(IntPtr buffer, IntPtr fileNamePtr, uint offset, uint length, IntPtr userdata) 
+		static int ReadFile(IntPtr buffer, IntPtr fileNamePtr, uint offset, uint length, IntPtr userdata) 
 		{
 			try
 			{
@@ -51,29 +71,8 @@ namespace dpull
 			} 
 		}
 
-        public static bool IsSupport(string file)
-        {
-            var bundle = assetbundle_load(file);
-            if (bundle == IntPtr.Zero)
-                return false;
+		static string AppDataDir;
 
-            var ret = assetbundle_check(bundle);
-            assetbundle_destory(bundle);
-            return ret;
-        }
-
-		public static bool Diff(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff)
-        {
-			return assetbundle_diff(appDataDir, fromAssetbundle, toAssetbundle, diff) == 0;
-        }
-
-		public static bool Merge(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff)
-		{
-			var parser = new AssetBundleParser();
-			parser.AppDataDir = appDataDir;
-			return assetbundle_merge(parser.ReadFile, IntPtr.Zero, fromAssetbundle, toAssetbundle, diff) == 0;
-		}
-		
 		#if UNITY_IPHONE
         internal const string LIBNAME = "__Internal";
         #else

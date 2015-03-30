@@ -98,8 +98,7 @@ namespace dpull
 					return;
 				}
 
-
-				// 真Real environment, you need to place this file on http server
+				// Real environment, you need to place this file on http server
 				var diffZip = Path.Combine(appDataDir, "Raw");
 				diffZip = Path.Combine(diffZip, Updater.DiffZip);
 
