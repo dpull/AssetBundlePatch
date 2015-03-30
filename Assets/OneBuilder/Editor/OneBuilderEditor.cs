@@ -70,7 +70,16 @@ namespace dpull
 
 			return string.Format("{0:F}{1}", size, unit);
 		}
-		
+
+		static BuildTarget GetIOSBuildTarget()
+		{
+			#if UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6
+			return BuildTarget.iPhone;
+			#else
+			return BuildTarget.iOS;
+			#endif
+		}
+
 		void OnGUI()
 		{
 			if (!string.IsNullOrEmpty(DebugInfo))
@@ -84,9 +93,11 @@ namespace dpull
 			{
 				var oldTarget = EditorUserBuildSettings.activeBuildTarget;
 				DirectoryEx.CreateDirectory(OutputDir);
-				var app = BuildPlayer(BuildTarget.iPhone, "Assets/Level1.unity");
+
+				var app = BuildPlayer(GetIOSBuildTarget(), "Assets/Level1.unity");
+
 				var appDataDir = Path.Combine(app, "Data");
-				var assetbundle = BuildStreamedSceneAssetBundle(BuildTarget.iPhone, "Assets/Level2.unity");
+				var assetbundle = BuildStreamedSceneAssetBundle(GetIOSBuildTarget(), "Assets/Level2.unity");
 
 				EditorUserBuildSettings.SwitchActiveBuildTarget(oldTarget);
 
