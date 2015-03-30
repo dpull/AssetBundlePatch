@@ -1,6 +1,6 @@
 # OneBuilder #
 
-OneBuilder 主要解决的是Unity3d 资源更新插件，通过AssetBundleParser类，对AssetBundle进行差异更新。
+OneBuilder 是Unity3d 资源更新插件，通过AssetBundleParser类，对AssetBundle进行差异更新。
 
 该插件诞生过程：http://www.dpull.com/blog/assetbundle/
 
