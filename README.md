@@ -2,6 +2,8 @@
 
 OneBuilder 是Unity3d 资源更新插件，通过`AssetBundleParser` 类，对AssetBundle进行差异更新。
 
+可以根据客户端安装包资源和已有的更新包，判断出重复资源，只进行差异更新。
+
 该插件诞生过程：http://www.dpull.com/blog/assetbundle/
 
 # 测试工程使用方法 #
