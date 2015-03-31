@@ -6,7 +6,7 @@ using System.IO;
 
 namespace dpull
 {
-    public class AssetBundleParser  
+    public class AssetBundlePatch  
     {
         public static bool IsSupport(string file)
         {

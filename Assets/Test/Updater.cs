@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +58,7 @@ namespace dpull
 			Debug.Log("AppDataDir:" + appDataDir);
 			
 			var update = Path.Combine(Application.persistentDataPath, "update.asset");
-			var ret = AssetBundleParser.Merge(appDataDir, null, update, diff);
+			var ret = AssetBundlePatch.Merge(appDataDir, null, update, diff);
 			if (!ret)
 			{
 				DebugMessage = "Merge failed.";

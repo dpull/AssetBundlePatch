@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
@@ -75,7 +75,7 @@ namespace dpull
 			EditorUserBuildSettings.SwitchActiveBuildTarget(oldTarget);
 			
 			var diff = Path.Combine(OutputDir, Updater.Diff);
-			var ret = AssetBundleParser.Diff(appDataDir, null, assetbundle, diff);
+			var ret = AssetBundlePatch.Diff(appDataDir, null, assetbundle, diff);
 			if (!ret)
 			{
 				Debug.LogError("AssetBundleParser.Diff failed!!!!");
@@ -108,7 +108,7 @@ namespace dpull
 			EditorUserBuildSettings.SwitchActiveBuildTarget(oldTarget);
 			
 			var diff = Path.Combine(OutputDir, Updater.Diff);
-			var ret = AssetBundleParser.Diff(appDataDir, null, assetbundle, diff);
+			var ret = AssetBundlePatch.Diff(appDataDir, null, assetbundle, diff);
 			if (!ret)
 			{
 				Debug.LogError("AssetBundleParser.Diff failed!!!!");
