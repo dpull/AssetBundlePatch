@@ -55,7 +55,7 @@ namespace dpull
 
 		BuildTarget GetIOSBuildTarget()
 		{
-			#if UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6
+			#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6
 			return BuildTarget.iPhone;
 			#else
 			return BuildTarget.iOS;
