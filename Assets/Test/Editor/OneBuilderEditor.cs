@@ -71,6 +71,12 @@ namespace dpull
 			
 			var appDataDir = Path.Combine(app, "Data");
 			var assetbundle = BuildStreamedSceneAssetBundle(GetIOSBuildTarget(), "Assets/Level2.unity");
+
+			if (!AssetBundlePatch.IsSupport(assetbundle))
+			{
+				Debug.LogError("AssetBundlePatch.IsSupport failed!!!!");
+				return;
+			}
 			
 			EditorUserBuildSettings.SwitchActiveBuildTarget(oldTarget);
 			
@@ -78,7 +84,7 @@ namespace dpull
 			var ret = AssetBundlePatch.Diff(appDataDir, null, assetbundle, diff);
 			if (!ret)
 			{
-				Debug.LogError("AssetBundleParser.Diff failed!!!!");
+				Debug.LogError("AssetBundlePatch.Diff failed!!!!");
 				return;
 			}
 			
@@ -104,6 +110,12 @@ namespace dpull
 			var app = BuildPlayer(BuildTarget.Android, BuildOptions.AcceptExternalModificationsToPlayer, "Assets/Level1.unity");
 			var appDataDir = Path.Combine(app, "OneBuilder/assets/bin/Data");
 			var assetbundle = BuildStreamedSceneAssetBundle(BuildTarget.Android, "Assets/Level2.unity");
+
+			if (!AssetBundlePatch.IsSupport(assetbundle))
+			{
+				Debug.LogError("AssetBundlePatch.IsSupport failed!!!!");
+				return;
+			}
 			
 			EditorUserBuildSettings.SwitchActiveBuildTarget(oldTarget);
 			
@@ -111,7 +123,7 @@ namespace dpull
 			var ret = AssetBundlePatch.Diff(appDataDir, null, assetbundle, diff);
 			if (!ret)
 			{
-				Debug.LogError("AssetBundleParser.Diff failed!!!!");
+				Debug.LogError("AssetBundlePatch.Diff failed!!!!");
 				return;
 			}
 			
