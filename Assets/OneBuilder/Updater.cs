@@ -9,8 +9,8 @@ namespace dpull
     public class Updater : MonoBehaviour
 	{	
 		public const string Diff = "diff.asset";
-		public const string DiffZip = "diff.zip";
-        private string DebugMessage = string.Empty;
+		public const string DiffZip = "diff.rtttl"; // for Android http://ponystyle.com/blog/2010/03/26/dealing-with-asset-compression-in-android-apps/
+		private string DebugMessage = string.Empty;
 		private string ProgressMessage = string.Empty; 
         private Progress CurProgress = null;
         private Rect WindowRect = new Rect(Screen.width / 4, Screen.height / 4, Screen.width / 2, Screen.height / 2); 
@@ -24,7 +24,7 @@ namespace dpull
 				return Directory.GetParent(Application.streamingAssetsPath).FullName;
 
 			case RuntimePlatform.Android:
-				return "";
+				return Path.Combine(Application.streamingAssetsPath, "bin/Data"); 
 
 			default:
 				throw new UnityException("Not support:" + Application.platform.ToString());
