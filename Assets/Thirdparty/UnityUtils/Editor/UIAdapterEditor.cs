@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEditor;
 
+#if USE_NGUI
+
 namespace dpull
 {
 	class UIAdapterEditor : EditorWindow
@@ -172,3 +174,4 @@ namespace dpull
 		}
 	}
 }
+#endif
