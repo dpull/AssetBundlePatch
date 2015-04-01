@@ -25,3 +25,8 @@
 该工程共有两个场景，一个小人跑在蓝色的场景上（Level1），一个小人跑在绿色的场景上（Level2），也就是说，除了场景的材质，其他的资源都是一样的。
 
 我们的安装包通过BuildPlayer只Build了Level1，然后通过BuildStreamedSceneAssetBundle制作了Level2的AssetBundle，这个AssetBundle有2.93MB，但其实这个AssetBundle中的大部分资源都在客户端安装包中，使用 `AssetBundlePatch`将其取差异，将差异压缩后大小为19.4KB，然后客户端开始运行时，通过`AssetBundlePatch` 将其恢复为原来2.93MB的AssetBundle，合并完成后客户端将Enter Level2的按钮，可以进入绿色背景的Level2.
+
+
+# 依赖库 #
+
+[`SharpZip.dll`](https://github.com/icsharpcode/SharpZipLib)  

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using ICSharpCode.SharpZipLib.Zip; // https://github.com/dpull/SharpZipLibForUnity/src
+using ICSharpCode.SharpZipLib.Zip; // https://github.com/icsharpcode/SharpZipLib
 using System.Collections;
 using UnityEngine;
 
