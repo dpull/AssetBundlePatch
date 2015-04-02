@@ -2,57 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class IntObject
-{
-	public int Value;
-	
-	static public implicit operator int(IntObject obj)
-	{
-		return obj.Value;
-	}
-	
-	static public implicit operator IntObject(int value)
-	{
-		IntObject o = new IntObject();
-		o.Value = value;
-		return o;
-	}
-	
-	public override bool Equals(object o)
-	{
-		var cmp = o as IntObject;
-		if (cmp == null)
-			return false;
-		return this.Value == cmp.Value;
-	}
-	
-	public override int GetHashCode()
-	{
-		return Value.GetHashCode();
-	}
-	
-	public override string ToString()
-	{
-		return Value.ToString();
-	}
-}
-
-public class Util
-{
-    public delegate bool TraversalCallback(Transform tr);
-    public static bool Traversal(Transform tr, TraversalCallback cb)
-    {
-        foreach (Transform child in tr)
-        {
-            if (!cb(child))
-                return false;
-            if (!Traversal(child, cb))
-                return false;
-        }
-        return true;
-    }
-
-	public static T GetChildByName<T>(GameObject go, string name) where T:Component
+public static class Util
+{ 
+	public static T GetChildByName<T>(this GameObject go, string name) where T:Component
 	{
 		var child = GetChildByName(go, name);
 		if (child == null)
@@ -61,7 +13,7 @@ public class Util
 		return child.gameObject.GetComponent<T>();
 	}
 
-	public static GameObject GetChildByName(GameObject go, string name) 
+	public static GameObject GetChildByName(this GameObject go, string name) 
 	{
 		var child = GetChildByName(go.transform, name);
 		return child == null ? null : child.gameObject;
@@ -69,6 +21,7 @@ public class Util
 
     public static Transform GetChildByName(Transform tr, string name)
     {
+		// 广度优先
         foreach (Transform child in tr)
         {
             if (child.name == name)
@@ -85,13 +38,25 @@ public class Util
         return null;
     }
 
-    public static void ChangeLayer(GameObject g, int l)
+	public delegate bool TraversalCallback(Transform go);
+	public static bool Traversal(this Transform transform, TraversalCallback callback)
+	{
+		// 深度优先
+		foreach (Transform child in transform)
+		{
+			if (!callback(child))
+				return false;
+
+			if (!child.Traversal(callback))
+				return false;
+		}
+		return true;
+	}
+
+    public static void ChangeLayer(GameObject go, int layer)
     {
-        g.layer = l;
-        foreach (Transform t in g.transform)
-        {
-            ChangeLayer(t.gameObject, l);
-        }
+        go.layer = layer;
+		go.transform.Traversal(child=>{child.gameObject.layer = layer; return true; });
     }
 	
 	public static string UrlToIP(string url)

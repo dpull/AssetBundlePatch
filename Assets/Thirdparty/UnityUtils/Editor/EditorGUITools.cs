@@ -7,7 +7,12 @@ namespace dpull
 {
 	public static class EditorGUITools
 	{
-		static public bool DrawHeader (string text, string key /* = null */, bool forceOn /* = false */, bool minimalistic /* = false */)
+		static public bool DrawHeader (string text)
+		{
+			return DrawHeader(text, null, false, false);
+		}
+
+		static public bool DrawHeader (string text, string key, bool forceOn, bool minimalistic)
 		{
 			key = (key == null) ? text : key;
 			bool state = EditorPrefs.GetBool(key, true);
