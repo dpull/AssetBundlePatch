@@ -12,24 +12,13 @@ namespace dpull
 		         
         public AndroidAssetStream(string fileName)
         {
-			var noCompressExt = new string[]{
-				".jpg", ".jpeg", ".png", ".gif",
-				".wav", ".mp2", ".mp3", ".ogg", ".aac",
-				".mpg", ".mpeg", ".mid", ".midi", ".smf", ".jet",
-				".rtttl", ".imy", ".xmf", ".mp4", ".m4a",
-				".m4v", ".3gp", ".3gpp", ".3g2", ".3gpp2",
-				".amr", ".awb", ".wma", ".wmv"
-			};
-
-			var ext = System.IO.Path.GetExtension(fileName);
-
 			using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 			{
 				using (var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
 				{
 					using (var assetManager = activity.Call<AndroidJavaObject>("getAssets")) //android.content.res.AssetManager
 					{
-						if (Array.Exists<string>(noCompressExt, (obj)=>{ return obj == ext; }))
+						if (IsNoCompressionAsset(fileName))
 						{
 							using (var assetFileDescriptor = assetManager.Call<AndroidJavaObject>("openFd", fileName)) //assets/ //android.content.res.AssetFileDescriptor
 							{
@@ -164,6 +153,22 @@ namespace dpull
     			AndroidJNIHelper.DeleteJNIArgArray(args, array);
     		}
     	}
+
+		// http://ponystyle.com/blog/2010/03/26/dealing-with-asset-compression-in-android-apps/
+		static bool IsNoCompressionAsset(string fileName)
+		{
+			var noCompressExt = new string[]{
+				".jpg", ".jpeg", ".png", ".gif",
+				".wav", ".mp2", ".mp3", ".ogg", ".aac",
+				".mpg", ".mpeg", ".mid", ".midi", ".smf", ".jet",
+				".rtttl", ".imy", ".xmf", ".mp4", ".m4a",
+				".m4v", ".3gp", ".3gpp", ".3g2", ".3gpp2",
+				".amr", ".awb", ".wma", ".wmv"
+			};
+			
+			var ext = System.IO.Path.GetExtension(fileName);
+			return Array.Exists<string>(noCompressExt, (obj)=>{ return obj == ext; });
+		}
     }
 }
 #endif
