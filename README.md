@@ -4,10 +4,10 @@
 
 可以根据客户端安装包资源和已有的AssetBundle包，判断出重复资源，只进行差异更新。
 
-该插件诞生过程：http://www.dpull.com/blog/assetbundle/
+该插件诞生过程：[http://www.dpull.com/blog/assetbundle/](http://www.dpull.com/blog/assetbundle/)
 
 # 测试工程使用方法 #
-测试环境 unity4.6 mac版， itouch4
+测试环境：编辑器：unity4.6 mac, windows；移动设备：itouch4， 小米2
 
 ## iPhone ##
 1. 打开XStudio->Tools->One Builder插件界面
@@ -29,4 +29,5 @@
 
 # 依赖库 #
 
-[`SharpZip.dll`](https://github.com/icsharpcode/SharpZipLib)  
+* [`SharpZip.dll`](https://github.com/icsharpcode/SharpZipLib) 多种压缩格式的解压和压缩库。	
+* [`AssetBundleParser.dll`](https://bitbucket.org/beings/assetbundleparser) AssetBundle文件的解析库，因为效率，写在了C中，其实就是 [`disunity`](https://github.com/ata4/disunity) 的C版本，发邮件到beingstudio@gmail.com获取代码读写权限。
