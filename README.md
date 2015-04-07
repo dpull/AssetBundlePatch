@@ -30,4 +30,4 @@
 # 依赖库 #
 
 * [`SharpZip.dll`](https://github.com/icsharpcode/SharpZipLib) 多种压缩格式的解压和压缩库。	
-* [`AssetBundleParser.dll`](https://bitbucket.org/beings/assetbundleparser) AssetBundle文件的解析库，因为效率，写在了C中，其实就是 [`disunity`](https://github.com/ata4/disunity) 的C版本，发邮件到beingstudio@gmail.com获取代码读写权限。（邮件写上你的bitbucket账号）
+* [`AssetBundleParser.dll`](https://github.com/dpull/AssetBundleParser) AssetBundle文件的解析库，因为效率，写在了C中，其实就是 [`disunity`](https://github.com/ata4/disunity) 的C版本
