@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="SimpleJson.cs" company="The Outercurve Foundation">
 //    Copyright (c) 2011, The Outercurve Foundation.
 //
@@ -263,7 +263,7 @@ namespace SimpleJson
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns>
-        /// 	<c>true</c> if [contains] [the specified item]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [contains] [the specified item]; otherwise, <c>false</c>.
         /// </returns>
         public bool Contains(KeyValuePair<string, object> item)
         {
@@ -300,7 +300,7 @@ namespace SimpleJson
         /// Gets a value indicating whether this instance is read only.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is read only; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is read only; otherwise, <c>false</c>.
         /// </value>
         public bool IsReadOnly
         {
@@ -1358,13 +1358,13 @@ namespace SimpleJson
                         if (isValid && Uri.TryCreate(str, UriKind.RelativeOrAbsolute, out result))
                             return result;
 
-												return null;
+                                                return null;
                     }
                   
-									if (type == typeof(string))  
-										return str;
+                                    if (type == typeof(string))  
+                                        return str;
 
-									return Convert.ChangeType(str, type, CultureInfo.InvariantCulture);
+                                    return Convert.ChangeType(str, type, CultureInfo.InvariantCulture);
                 }
                 else
                 {
@@ -1598,7 +1598,7 @@ namespace SimpleJson
     namespace Reflection
     {
         // This class is meant to be copied into other libraries. So we want to exclude it from Code Analysis rules
- 	    // that might be in place in the target project.
+         // that might be in place in the target project.
         [GeneratedCode("reflection-utils", "1.0.0")]
 #if SIMPLE_JSON_REFLECTION_UTILS_PUBLIC
         public
