@@ -6,6 +6,17 @@ using System.IO;
 
 namespace dpull
 {
+    public enum AssetBundlePatchResult
+    {
+        Failed = -1,
+        Succeed = 0,
+        
+        FromAssetBundleLoadFailed,
+        DiffFileSaveFailed,
+        DiffFileLoadFailed,
+        ToAssetBundleSaveFailed,
+    }
+
     public class AssetBundlePatch  
     {
         public static bool IsSupport(string file)
@@ -15,20 +26,92 @@ namespace dpull
                 return false;
 
             var ret = assetbundle_check(bundle);
-            assetbundle_destory(bundle);
+            assetbundle_destroy(bundle);
             return ret;
         }
 
-        public static bool Diff(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff)
+        public static AssetBundlePatchResult Diff(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff)
         {
-            return assetbundle_diff(appDataDir, fromAssetbundle, toAssetbundle, diff) == 0;
+            if (string.IsNullOrEmpty(appDataDir))
+                appDataDir = null;
+
+            if (string.IsNullOrEmpty(fromAssetbundle))
+                fromAssetbundle = null;
+
+            if (string.IsNullOrEmpty(toAssetbundle))
+                throw new System.ArgumentNullException("toAssetbundle");
+
+            if (string.IsNullOrEmpty(diff))
+                throw new System.ArgumentNullException("diff");
+
+            return (AssetBundlePatchResult)assetbundle_diff(appDataDir, fromAssetbundle, toAssetbundle, diff);
         }
 
-        public static bool Merge(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff)
+        public static AssetBundlePatchResult Merge(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff)
         {
+            if (string.IsNullOrEmpty(appDataDir))
+                appDataDir = string.Empty;
+            
+            if (string.IsNullOrEmpty(fromAssetbundle))
+                fromAssetbundle = null;
+            
+            if (string.IsNullOrEmpty(toAssetbundle))
+                throw new System.ArgumentNullException("toAssetbundle");
+            
+            if (string.IsNullOrEmpty(diff))
+                throw new System.ArgumentNullException("diff");
+
             AppDataDir = appDataDir;
-            return assetbundle_merge(ReadFile, IntPtr.Zero, fromAssetbundle, toAssetbundle, diff) == 0;
+            return (AssetBundlePatchResult)assetbundle_merge(ReadFile, IntPtr.Zero, fromAssetbundle, toAssetbundle, diff);
         }
+
+        public static void Print(string diff, string output)
+        {
+            if (string.IsNullOrEmpty(diff))
+                throw new System.ArgumentNullException("diff");
+
+            if (string.IsNullOrEmpty(output))
+                output = null;
+
+            assetbundle_diff_print(diff, output);
+        }
+
+        public static bool SetFileSize(string file, uint length)
+        {
+            return filemapping_truncate(file, length);
+        }
+
+        public static string GetAppDataDir()
+        {
+            switch (Application.platform)
+            {
+            case RuntimePlatform.IPhonePlayer:
+                return Directory.GetParent(Application.streamingAssetsPath).FullName;
+                
+            case RuntimePlatform.Android:
+                return Path.Combine(Application.streamingAssetsPath, "bin/Data"); 
+                
+            default:
+                throw new UnityException("Not support:" + Application.platform.ToString());
+            }
+        }
+
+#if UNITY_EDITOR
+        public static string GetEditorAppDataDir(string clientPath, UnityEditor.BuildTarget target)
+        {
+            switch (target)
+            {
+            case UnityEditor.BuildTarget.iPhone:
+                return Path.Combine(clientPath, "Payload/hero.app/Data");
+
+            case UnityEditor.BuildTarget.Android:
+                return Path.Combine(clientPath, "assets/bin/Data");
+
+            default:
+                throw new UnityException("Not support:" + Application.platform.ToString());
+            }
+        }
+#endif
 
         static bool TrySplitPath(string fullPath, ref string splitFileName, ref int splitIndex)
         {
@@ -126,8 +209,8 @@ namespace dpull
         [DllImport(LIBNAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "assetbundle_check")]
         static extern bool assetbundle_check(IntPtr bundle);
         
-        [DllImport(LIBNAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "assetbundle_destory")]
-        static extern void assetbundle_destory(IntPtr bundle);
+		[DllImport(LIBNAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "assetbundle_destroy")]
+        static extern void assetbundle_destroy(IntPtr bundle);
         
         [DllImport(LIBNAME, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "assetbundle_diff")]
         static extern int assetbundle_diff(string appDataDir, string fromAssetbundle, string toAssetbundle, string diff);
@@ -136,5 +219,11 @@ namespace dpull
         
         [DllImport(LIBNAME, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "assetbundle_merge")]
         static extern int assetbundle_merge(ReadFileCallback callback, IntPtr userdata, string fromAssetbundle, string toAssetbundle, string diff);
+    
+        [DllImport(LIBNAME, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "assetbundle_diff_print")]
+        static extern void assetbundle_diff_print(string filename, string output);
+
+        [DllImport(LIBNAME, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "filemapping_truncate")]
+        static extern bool filemapping_truncate(string filename, uint length);
     }
 }

@@ -82,7 +82,7 @@ namespace dpull
             
             var diff = Path.Combine(OutputDir, Updater.Diff);
             var ret = AssetBundlePatch.Diff(appDataDir, null, assetbundle, diff);
-            if (!ret)
+			if (ret != AssetBundlePatchResult.Succeed)
             {
                 Debug.LogError("AssetBundlePatch.Diff failed!!!!");
                 return;
@@ -121,7 +121,7 @@ namespace dpull
             
             var diff = Path.Combine(OutputDir, Updater.Diff);
             var ret = AssetBundlePatch.Diff(appDataDir, null, assetbundle, diff);
-            if (!ret)
+			if (ret != AssetBundlePatchResult.Succeed)
             {
                 Debug.LogError("AssetBundlePatch.Diff failed!!!!");
                 return;
@@ -140,8 +140,7 @@ namespace dpull
             sb.AppendLine(string.Format("Diff zip size:{0}", GetFileSizeString(diffZip)));
             DebugInfo = sb.ToString();
         }
-
-
+	
         void OnGUI()
         {
             if (!string.IsNullOrEmpty(DebugInfo))

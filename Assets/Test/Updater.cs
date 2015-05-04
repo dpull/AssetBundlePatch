@@ -59,7 +59,7 @@ namespace dpull
             
             var update = Path.Combine(Application.persistentDataPath, "update.asset");
             var ret = AssetBundlePatch.Merge(appDataDir, null, update, diff);
-            if (!ret)
+            if (ret != AssetBundlePatchResult.Succeed)
             {
                 DebugMessage = "Merge failed.";
                 yield break;
