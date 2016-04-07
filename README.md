@@ -4,7 +4,7 @@
 
 可以根据客户端安装包资源和已有的AssetBundle包，判断出重复资源，只进行差异更新。
 
-该插件诞生过程：[http://www.dpull.com/blog/2015-01-23/hero_assetbundle](http://www.dpull.com/blog/2015-01-23/hero_assetbundle)
+该插件诞生过程：[http://www.dpull.com/blog/2015-01-23/hero_assetbundle](http://www.dpull.com/blog/2015-01-23-hero_assetbundle)
 
 # 测试工程使用方法 #
 测试环境：编辑器：unity4.6 mac, windows；移动设备：itouch4， 小米2
